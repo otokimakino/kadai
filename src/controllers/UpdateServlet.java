@@ -37,9 +37,10 @@ public class UpdateServlet extends HttpServlet {
 
             // セッションスコープからタスクのIDを取得して
             // 該当のIDのタスク1件のみをデータベースから取得
-            Tasks t = em.find(Tasks.class, (Integer)(request.getSession().getAttribute("message_id")));
+            Tasks t = em.find(Tasks.class, (Integer)(request.getSession().getAttribute("tasks_id")));
 
             // フォームの内容を各フィールドに上書き
+
 
             String content = request.getParameter("content");
             t.setContent(content);
@@ -50,6 +51,7 @@ public class UpdateServlet extends HttpServlet {
             // データベースを更新
             em.getTransaction().begin();
             em.getTransaction().commit();
+            request.getSession().setAttribute("flush", "登録が完了しました。");
             em.close();
 
             // セッションスコープ上の不要になったデータを削除

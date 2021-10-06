@@ -36,11 +36,12 @@ public class DestroyServlet extends HttpServlet {
 
             // セッションスコープからタスクのIDを取得して
             // 該当のIDのタスク1件のみをデータベースから取得
-            Tasks t = em.find(Tasks.class, (Integer)(request.getSession().getAttribute("message_id")));
+            Tasks t = em.find(Tasks.class, (Integer)(request.getSession().getAttribute("tasks_id")));
 
             em.getTransaction().begin();
             em.remove(t);       // データ削除
             em.getTransaction().commit();
+            request.getSession().setAttribute("flush", "登録が完了しました。");
             em.close();
 
             // セッションスコープ上の不要になったデータを削除
